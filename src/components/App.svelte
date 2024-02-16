@@ -1,5 +1,5 @@
 <script>
-    import {onMount} from svelte
+    import {onMount} from 'svelte';
     import * as d3 from 'd3';
     
     let quakeData = [];
@@ -12,7 +12,6 @@
 
         quakeData = d3.csvParse(csv, d3.autoType)
 
-        console.log(tempData);
-
+        console.log(quakeData);
     });
 </script>
