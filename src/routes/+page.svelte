@@ -1,8 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<div id="scatter_area"></div>
 
 <script>
     import App from '../components/App.svelte';
+    import App2 from '../components/App2.svelte';
 </script>
 
-<App />
+<App2 />
