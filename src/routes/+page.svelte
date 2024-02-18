@@ -2,7 +2,6 @@
 
 <script>
     import App from '../components/App.svelte';
-    import App2 from '../components/App2.svelte';
 </script>
 
-<App2 />
+<App />
