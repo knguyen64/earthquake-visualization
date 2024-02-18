@@ -1,2 +1,2 @@
-## Earthquakes within the USA
-An interactive visualization that illustrates detected earthquakes from 1975 to 2015 with magnintudes no less than three. 
+## How has Earthquake Activity Changed Overtime in the United States? 
+An interactive visualization illustrating earthquakes with magnitude no less than three recorded from 1970 to 2014. Data from the U.S. Geological Survey was used to create this visualization. 
