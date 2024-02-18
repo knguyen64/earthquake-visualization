@@ -10,7 +10,6 @@
     let allQuakeData = [];
     let states = [];
 	let mesh;
-	let selected;
 	let width = 975
 	let height = 610
 
@@ -49,27 +48,29 @@
     // Add zooming
     let svg;
     let g;
+    let gScale = 0.7 * 0.85
 
-    $: map = d3.select(svg).call(zoom);
+    $: d3.select(svg).call(zoom);
     $: d3.select(g)
-        .attr("transform", "translate(100, 30)")
-
+        .attr("transform", "translate(110, 50)")
+        
     var zoom = d3.zoom()
         .translateExtent([[0, 0], [width, height]])
-        .scaleExtent([1, 1.8])
+        .scaleExtent([1, 2])
+        .extent([[0, 0], [width, height]])
         .on("zoom", zoomed);
 
     function zoomed() {
         let k = d3.zoomTransform(this)['k']
-        let x = d3.zoomTransform(this)['x'] + 100
-        let y = d3.zoomTransform(this)['y'] + 30
+        let x = 110 + d3.zoomTransform(this)['x'] * gScale
+        let y = 50 + d3.zoomTransform(this)['y'] * gScale
 
         d3.select(g)
         .attr("transform", "scale(" + k + ") translate(" + x + "," + y + ")");
     }
 </script>
 
-<h1 style="margin-top:225px"> How has Earthquake Activity Changed Overtime in the United States?</h1>
+<h1> How has Earthquake Activity Changed Overtime in the United States?</h1>
 <h4>
     An interactivate visualization by Cristina De La Torre and Kathleen Nguyen illustrating earthquakes with magnitude no less than three recorded from 1970 to 2014. Data from
     the U.S. Geological Survey was used to create this visualization.
@@ -135,10 +136,8 @@
         margin-left: 0px;
         margin-right: 0px;
         margin-bottom: 0px;
-
-        /* border: 2px solid #737373; */
         scale: 0.7;
-        transform: translate(0px, -140px);
+        transform: translate(0px, -150px);
     }
 
     main{
@@ -202,8 +201,8 @@
     </div>
 {/if}
 
-<html lang="en" style="margin-top:-180px">
-    <h3>Design Rationale</h3>
+<html lang="en">
+    <h3 style="margin-top:-140px">Design Rationale</h3>
     <p>
     The focus of our question lies in analyzing the location of earthquakes across the United States to discover trends in earthquake activity overtime. To explore this question, we chose to plot the location of earthquakes as points using their latitude and longitude across a map of the United States. The points themselves are encoded as blue in order to convey neutrality on the frequency of earthquakes. Although earthquakes are natural disasters, we wanted to encourage the analysis of their patterns rather than emphasize the aspects of danger associated with their frequency. Along with this, the earthquake’s magnitude is encoded as the size of the plotted point. Larger circle markers correspond to earthquakes with greater magnitudes. By doing so, viewers can more closely inspect any variations between earthquake magnitudes across regions. To further explore the data, we chose to construct a slider that displays the number of earthquakes relative to a year. As a result, viewers may explore the amount of seismic activity by year. In this manner, we are able to note the occurrence of drastic changes within a much more narrow scope. We also chose to implement a tool-tip which is used to hover over specific plotted earthquakes on the map, revealing information on the magnitude of the respective earthquake along with its geographical coordinates. We decided to introduce this aspect of interaction because information like the magnitude of the earthquake correlates to the likelihood of successive seismic activity. In this way, the magnitude proves to be useful information in analyzing earthquake occurrences and their frequency. Furthermore, using the tool-tip to hover over a certain point changes the color of the point to red. This color encoding helps distinguish the specific plotted point of interest as the color contrasts the default blue. This provides clarity when using the tool-tip. To further the exploration of the data, the constructed visualization includes another level of interaction where the map can be zoomed into as well as panned. This function was incorporated as it magnifies areas of interest so that particular patterns can be closely analyzed. 
     </p>
