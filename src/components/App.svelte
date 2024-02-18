@@ -69,7 +69,7 @@
     }
 </script>
 
-<h1 style="margin-top:300px"> How has Earthquake Activity Changed Overtime in the United States?</h1>
+<h1 style="margin-top:250px"> How has Earthquake Activity Changed Overtime in the United States?</h1>
 <h4>
     An interactivate visualization by Cristina De La Torre and Kathleen Nguyen illustrating earthquakes with magnitude no less than three recorded from 1970 to 2014. Data from
     the U.S. Geological Survey was used to create this visualization.
