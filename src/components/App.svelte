@@ -48,25 +48,17 @@
     // Add zooming
     let svg;
     let g;
-    let gScale = 0.7 * 0.85
 
     $: d3.select(svg).call(zoom);
-    $: d3.select(g)
-        .attr("transform", "translate(110, 50)")
         
     var zoom = d3.zoom()
         .translateExtent([[0, 0], [width, height]])
-        .scaleExtent([1, 2])
+        .scaleExtent([1, 4])
         .extent([[0, 0], [width, height]])
         .on("zoom", zoomed);
 
-    function zoomed() {
-        let k = d3.zoomTransform(this)['k']
-        let x = 110 + d3.zoomTransform(this)['x'] * gScale
-        let y = 50 + d3.zoomTransform(this)['y'] * gScale
-
-        d3.select(g)
-        .attr("transform", "scale(" + k + ") translate(" + x + "," + y + ")");
+    function zoomed(event) {
+        d3.select(g).attr("transform", event.transform)
     }
 </script>
 
@@ -77,35 +69,38 @@
 </h4>
 
 <main>
-    <label style="margin-left:10px">{slider_label}</label>
+    <label style="margin-left:10px">{slider_label}</label><br/>
     <input type="range" min="1970" max="2014" bind:value={slider_value} style="width: 250px; accent-color: #0088ff"/><br/>
+    <h5 style="margin-left:10px; margin-top:5px"> Zoom and pan across the map. Hover over points for additional information.</h5>
 </main>
 
 <!-- <svg bind:this={svg} {width} {height}> -->
 <svg bind:this={svg} viewBox="0 0 {width} {height}">
-    <g bind:this={g} style="scale: 0.85;">
-        <!-- state shapes -->
-        <g fill="#e9e9e9" stroke="#737373">
-            {#each states as feature, i}
-                <path d={path(feature)}  class="state" in:draw={{ delay: 0, duration: 1000 }} />
-            {/each}
-        </g>
+    <g bind:this={g}>
+        <g transform-origin="50% 50% 0 " style="transform: scale(0.8);">
+            <!-- state shapes -->
+            <g fill="#e9e9e9" stroke="#737373">
+                {#each states as feature, i}
+                    <path d={path(feature)}  class="state" in:draw={{ delay: 0, duration: 1000 }} />
+                {/each}
+            </g>
 
-        <!-- points -->
-        <g stroke="#1c1cff" stroke-opacity="0.3">
-            {#each quakeData as d, i}
-                {#if d[3] === slider_value.toString()}
-                    <circle
-                        key={i}
-                        cx={d[0]}
-                        cy={d[1]}
-                        r={d[2]*1.2}
-                        on:mouseover={function(event) {selected_datapoint = d; setMousePosition(event)}}
-                        on:mouseout={function() {selected_datapoint = undefined}}
-                        class:selected="{selected_datapoint && d.i == d}"
-                    />
-                {/if}
-            {/each}
+            <!-- points -->
+            <g stroke="#1c1cff" stroke-opacity="0.3">
+                {#each quakeData as d, i}
+                    {#if d[3] === slider_value.toString()}
+                        <circle
+                            key={i}
+                            cx={d[0]}
+                            cy={d[1]}
+                            r={d[2]*1.2}
+                            on:mouseover={function(event) {selected_datapoint = d; setMousePosition(event)}}
+                            on:mouseout={function() {selected_datapoint = undefined}}
+                            class:selected="{selected_datapoint && d.i == d}"
+                        />
+                    {/if}
+                {/each}
+            </g>
         </g>
     </g>
 </svg>
@@ -130,6 +125,13 @@
         color: gray
     }
 
+    h5{
+        display: block;
+        font-family: "Arial", arial;
+        font-weight: 100;
+        color: gray
+    }
+
     svg {
         display: block;
         margin-top: 0px;
@@ -146,7 +148,6 @@
         text-align: left;
         float: center;
         margin-left: 180px;
-        width: 200px;
     }    
 
     #tooltip {
